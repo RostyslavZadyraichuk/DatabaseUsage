@@ -16,6 +16,18 @@ public abstract class Vehicle<T extends VehicleInfo<?>> {
 
     private Double realPrice;
 
+    private Color color;
+
+    private Status status;
+
     private T info;
+
+    public enum Color {
+        WHITE, BLACK, RED, GREEN, GRAY
+    }
+
+    public enum Status {
+        NEW, USED
+    }
 
 }
