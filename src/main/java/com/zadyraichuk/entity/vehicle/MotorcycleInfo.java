@@ -11,6 +11,11 @@ import lombok.ToString;
 @NoArgsConstructor
 public class MotorcycleInfo extends VehicleInfo<MotorcycleInfo.MotorcycleType> {
 
+    private Boolean hasHelmetStorage;
+
+    private RidingPosition ridingPosition;
+
+
     public enum MotorcycleType implements VehicleType {
         CHOPPER, SCOOTER, SPORT;
 
@@ -18,6 +23,10 @@ public class MotorcycleInfo extends VehicleInfo<MotorcycleInfo.MotorcycleType> {
         public String getTypeAsString() {
             return this.name();
         }
+    }
+
+    public enum RidingPosition {
+        UPRIGHT, FORWARD_LEANING, SPORT
     }
 
 }

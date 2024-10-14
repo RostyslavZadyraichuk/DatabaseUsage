@@ -10,6 +10,8 @@ public class CarInfo extends VehicleInfo<CarInfo.CarType> {
 
     private Integer doorAmount;
 
+    private Boolean isElectric;
+
 
     public enum CarType implements VehicleType {
         SEDAN, COUPLE, JEEP, TRUCK;

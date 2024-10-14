@@ -12,8 +12,6 @@ public abstract class Vehicle<T extends VehicleInfo<?>> {
     @EqualsAndHashCode.Include
     private String vin;
 
-    private Integer manufactureYear;
-
     private Double realPrice;
 
     private Color color;
@@ -27,7 +25,7 @@ public abstract class Vehicle<T extends VehicleInfo<?>> {
     }
 
     public enum Status {
-        NEW, USED
+        NEW, USED, SOLD
     }
 
 }

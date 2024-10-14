@@ -11,6 +11,8 @@ import lombok.ToString;
 @NoArgsConstructor
 public class TruckInfo extends VehicleInfo<TruckInfo.TruckType> {
 
+    private Double maxLoadCapacity;
+
     public enum TruckType implements VehicleType {
         AMERICAN, EUROPEAN;
 
