@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.zadyraichuk.entity.vehicle</OriginalElement>
+  <nodes>
+    <node x="-29.7504242424244" y="186.99775438596464">com.zadyraichuk.entity.Customer</node>
+    <node x="667.5146475279106" y="491.0307878787881">com.zadyraichuk.entity.vehicle.Truck</node>
+    <node x="349.17879425837316" y="478.0307878787881">com.zadyraichuk.entity.vehicle.TruckInfo</node>
+    <node x="170.0" y="139.0">com.zadyraichuk.entity.vehicle.VehicleType</node>
+    <node x="305.6047655502391" y="-95.0615757575761">com.zadyraichuk.entity.VehicleShop</node>
+    <node x="761.7976395534292" y="99.55167464114838">com.zadyraichuk.entity.vehicle.Vehicle.Color</node>
+    <node x="256.07696969696974" y="241.00000000000003">com.zadyraichuk.entity.vehicle.VehicleInfo</node>
+    <node x="622.2884848484848" y="99.55167464114838">com.zadyraichuk.entity.vehicle.Vehicle.Status</node>
+    <node x="-103.22874003189798" y="557.595687400319">com.zadyraichuk.entity.vehicle.MotorcycleInfo.RidingPosition</node>
+    <node x="672.4567336523126" y="749.978366826156">com.zadyraichuk.entity.vehicle.Car</node>
+    <node x="39.925894736842" y="-141.06157575757595">com.zadyraichuk.entity.Sale</node>
+    <node x="163.98826794258366" y="718.5733078149917">com.zadyraichuk.entity.vehicle.CarInfo.CarType</node>
+    <node x="163.98826794258366" y="466.5307878787881">com.zadyraichuk.entity.vehicle.TruckInfo.TruckType</node>
+    <node x="654.7939776714512" y="611.3020478468899">com.zadyraichuk.entity.vehicle.Motorcycle</node>
+    <node x="573.2884848484848" y="264.0">com.zadyraichuk.entity.vehicle.Vehicle</node>
+    <node x="142.4882679425837" y="600.0615757575761">com.zadyraichuk.entity.vehicle.MotorcycleInfo.MotorcycleType</node>
+    <node x="349.17879425837316" y="718.5733078149917">com.zadyraichuk.entity.vehicle.CarInfo</node>
+    <node x="377.5881799043061" y="586.8020478468899">com.zadyraichuk.entity.vehicle.MotorcycleInfo</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.zadyraichuk.entity.vehicle.Vehicle" target="com.zadyraichuk.entity.vehicle.Vehicle.Status" relationship="TO_ONE">
+      <point x="0.0" y="-73.0" />
+      <point x="648.2884848484848" y="342.0" />
+      <point x="616.7225007974482" y="342.0" />
+      <point x="616.7225007974482" y="270.0615757575757" />
+      <point x="647.5384848484848" y="270.0615757575757" />
+      <point x="-25.25" y="38.5" />
+    </edge>
+    <edge source="com.zadyraichuk.entity.vehicle.Vehicle.Color" target="com.zadyraichuk.entity.vehicle.Vehicle" relationship="INNER_CLASS">
+      <point x="24.0" y="73.0" />
+      <point x="833.7976395534292" y="387.20086762360455" />
+      <point x="722.7229090909091" y="387.20086762360455" />
+      <point x="74.43442424242426" y="-26.33649760765553" />
+    </edge>
+    <edge source="com.zadyraichuk.entity.vehicle.MotorcycleInfo.MotorcycleType" target="com.zadyraichuk.entity.vehicle.VehicleType" relationship="REALIZATION">
+      <point x="-57.324155549601414" y="-32.87652185008005" />
+      <point x="173.16411239298228" y="627.4782851674644" />
+      <point x="129.45248867623604" y="627.4782851674644" />
+      <point x="129.45248867623604" y="153.0" />
+      <point x="206.0" y="153.0" />
+      <point x="-36.0" y="14.0" />
+    </edge>
+    <edge source="com.zadyraichuk.entity.vehicle.MotorcycleInfo.RidingPosition" target="com.zadyraichuk.entity.vehicle.MotorcycleInfo" relationship="INNER_CLASS">
+      <point x="-44.75" y="50.0" />
+      <point x="-58.478740031897985" y="581.7203317384369" />
+      <point x="415.0881799043061" y="581.7203317384369" />
+      <point x="-75.0" y="-38.5" />
+    </edge>
+    <edge source="com.zadyraichuk.entity.vehicle.TruckInfo" target="com.zadyraichuk.entity.vehicle.VehicleInfo" relationship="GENERALIZATION">
+      <point x="0.0" y="-27.0" />
+      <point x="451.17879425837316" y="510.6059631464114" />
+      <point x="339.0779063323762" y="510.6059631464114" />
+      <point x="-19.499063364593553" y="78.57771610845293" />
+    </edge>
+    <edge source="com.zadyraichuk.entity.vehicle.CarInfo.CarType" target="com.zadyraichuk.entity.vehicle.VehicleType" relationship="REALIZATION">
+      <point x="-29.25" y="-61.5" />
+      <point x="193.23826794258366" y="763.452488676236" />
+      <point x="129.45248867623604" y="763.452488676236" />
+      <point x="129.45248867623604" y="153.0" />
+      <point x="189.13948208995197" y="153.0" />
+      <point x="-52.86051791004803" y="3.1923776714513394" />
+    </edge>
+    <edge source="com.zadyraichuk.entity.vehicle.CarInfo" target="com.zadyraichuk.entity.vehicle.VehicleInfo" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="436.67879425837316" y="759.9016199859647" />
+      <point x="339.0779063323762" y="759.9016199859647" />
+      <point x="-19.499063364593553" y="80.15601531100475" />
+    </edge>
+    <edge source="com.zadyraichuk.entity.vehicle.Truck" target="com.zadyraichuk.entity.vehicle.Vehicle" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="714.0146475279106" y="462.29323125996814" />
+      <point x="648.2884848484848" y="462.29323125996814" />
+      <point x="0.0" y="73.0" />
+    </edge>
+    <edge source="com.zadyraichuk.entity.Sale" target="com.zadyraichuk.entity.VehicleShop" relationship="TO_ONE">
+      <point x="0.0" y="-96.0" />
+      <point x="125.925894736842" y="-27.32440191387559" />
+      <point x="481.1047655502391" y="-27.32440191387559" />
+      <point x="0.0" y="-73.0" />
+    </edge>
+    <edge source="com.zadyraichuk.entity.vehicle.Vehicle" target="com.zadyraichuk.entity.vehicle.VehicleInfo" relationship="DEPENDENCY">
+      <point x="-50.0" y="-73.0" />
+      <point x="598.2884848484848" y="337.0" />
+      <point x="437.87984848484854" y="337.0" />
+      <point x="437.87984848484854" y="337.9014992025518" />
+      <point x="100.85116427432217" y="12.401499202551804" />
+    </edge>
+    <edge source="com.zadyraichuk.entity.vehicle.Car" target="com.zadyraichuk.entity.vehicle.Vehicle" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="710.9567336523126" y="694.640207336523" />
+      <point x="648.2884848484848" y="694.640207336523" />
+      <point x="0.0" y="73.0" />
+    </edge>
+    <edge source="com.zadyraichuk.entity.vehicle.TruckInfo.TruckType" target="com.zadyraichuk.entity.vehicle.TruckInfo" relationship="INNER_CLASS">
+      <point x="-33.25" y="-38.5" />
+      <point x="197.23826794258366" y="521.9480803827752" />
+      <point x="451.17879425837316" y="521.9480803827752" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="com.zadyraichuk.entity.Sale" target="com.zadyraichuk.entity.Customer" relationship="TO_ONE">
+      <point x="0.0" y="-96.0" />
+      <point x="125.925894736842" y="-43.21850079744809" />
+      <point x="86.44195342902697" y="-43.21850079744809" />
+      <point x="86.44195342902697" y="112.40464944178618" />
+      <point x="62.18525805422627" y="112.40464944178618" />
+      <point x="19.93568229665067" y="44.284909728867774" />
+    </edge>
+    <edge source="com.zadyraichuk.entity.VehicleShop" target="com.zadyraichuk.entity.vehicle.Vehicle" relationship="TO_MANY">
+      <point x="126.41985837320544" y="37.57959808612466" />
+      <point x="607.5246239234446" y="202.94075661881982" />
+      <point x="589.60035215311" y="202.94075661881982" />
+      <point x="589.60035215311" y="308.38159489633176" />
+      <point x="618.0275342902711" y="308.38159489633176" />
+      <point x="-30.26095055821372" y="46.44649441786282" />
+    </edge>
+    <edge source="com.zadyraichuk.entity.vehicle.MotorcycleInfo" target="com.zadyraichuk.entity.vehicle.MotorcycleInfo.RidingPosition" relationship="TO_ONE">
+      <point x="0.0" y="-38.5" />
+      <point x="490.0881799043061" y="566.8064561403509" />
+      <point x="31.021259968102015" y="566.8064561403509" />
+      <point x="44.75" y="50.0" />
+    </edge>
+    <edge source="com.zadyraichuk.entity.vehicle.VehicleInfo" target="com.zadyraichuk.entity.vehicle.VehicleType" relationship="DEPENDENCY">
+      <point x="0.0" y="-84.5" />
+      <point x="358.57696969696974" y="220.0" />
+      <point x="278.0" y="220.0" />
+      <point x="36.0" y="14.0" />
+    </edge>
+    <edge source="com.zadyraichuk.entity.vehicle.Vehicle" target="com.zadyraichuk.entity.vehicle.Vehicle.Color" relationship="TO_ONE">
+      <point x="0.0" y="-73.0" />
+      <point x="648.2884848484848" y="337.0" />
+      <point x="785.7976395534292" y="337.0" />
+      <point x="-24.0" y="73.0" />
+    </edge>
+    <edge source="com.zadyraichuk.entity.vehicle.Motorcycle" target="com.zadyraichuk.entity.vehicle.Vehicle" relationship="GENERALIZATION">
+      <point x="6.700937799043118" y="-9.483113237639486" />
+      <point x="729.4949154704943" y="581.7203317384369" />
+      <point x="648.2884848484848" y="581.7203317384369" />
+      <point x="0.0" y="73.0" />
+    </edge>
+    <edge source="com.zadyraichuk.entity.vehicle.MotorcycleInfo" target="com.zadyraichuk.entity.vehicle.VehicleInfo" relationship="GENERALIZATION">
+      <point x="75.0" y="-38.5" />
+      <point x="565.0881799043061" y="625.3020478468899" />
+      <point x="339.0779063323762" y="625.3020478468899" />
+      <point x="-19.499063364593553" y="70.68622009569378" />
+    </edge>
+    <edge source="com.zadyraichuk.entity.vehicle.TruckInfo.TruckType" target="com.zadyraichuk.entity.vehicle.VehicleType" relationship="REALIZATION">
+      <point x="-32.66814023859661" y="-3.1908848484851546" />
+      <point x="197.82012770398705" y="505.0307878787881" />
+      <point x="129.45248867623604" y="505.0307878787881" />
+      <point x="129.45248867623604" y="153.0" />
+      <point x="206.0" y="153.0" />
+      <point x="-36.0" y="14.0" />
+    </edge>
+    <edge source="com.zadyraichuk.entity.VehicleShop" target="com.zadyraichuk.entity.vehicle.VehicleInfo" relationship="TO_MANY">
+      <point x="-41.504304831898025" y="33.16891355661912" />
+      <point x="439.6004607183411" y="145.96921212121197" />
+      <point x="421.5362807017543" y="145.96921212121197" />
+      <point x="421.5362807017543" y="373.1193263157895" />
+      <point x="409.82696969696974" y="373.1193263157895" />
+      <point x="51.25" y="84.5" />
+    </edge>
+    <edge source="com.zadyraichuk.entity.vehicle.CarInfo.CarType" target="com.zadyraichuk.entity.vehicle.CarInfo" relationship="INNER_CLASS">
+      <point x="29.25" y="-61.5" />
+      <point x="251.73826794258366" y="780.0733078149917" />
+      <point x="436.67879425837316" y="780.0733078149917" />
+      <point x="0.0" y="38.5" />
+    </edge>
+    <edge source="com.zadyraichuk.entity.vehicle.MotorcycleInfo.MotorcycleType" target="com.zadyraichuk.entity.vehicle.MotorcycleInfo" relationship="INNER_CLASS">
+      <point x="44.0" y="-50.0" />
+      <point x="274.48826794258366" y="650.0615757575761" />
+      <point x="415.0881799043061" y="650.0615757575761" />
+      <point x="-75.0" y="-38.5" />
+    </edge>
+    <edge source="com.zadyraichuk.entity.vehicle.Vehicle.Status" target="com.zadyraichuk.entity.vehicle.Vehicle" relationship="INNER_CLASS">
+      <point x="25.25" y="38.5" />
+      <point x="698.0384848484848" y="220.2758373205742" />
+      <point x="698.2884848484848" y="220.2758373205742" />
+      <point x="50.0" y="-73.0" />
+    </edge>
+    <edge source="com.zadyraichuk.entity.Sale" target="com.zadyraichuk.entity.vehicle.Vehicle" relationship="TO_ONE">
+      <point x="42.32600191387553" y="-1.072714513556491" />
+      <point x="168.25189665071753" y="118.95183413078144" />
+      <point x="536.5300414673046" y="118.95183413078144" />
+      <point x="536.5300414673046" y="278.2983859649123" />
+      <point x="639.7291483253588" y="278.2983859649123" />
+      <point x="-8.559336523126035" y="-23.03078787878792" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.519039735099338" showDependencies="true" x="583.8573116427431" y="290.5406698564591" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
