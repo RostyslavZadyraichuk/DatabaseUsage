@@ -1,0 +1,1114 @@
+openapi: 3.0.3
+info:
+  title: Vehicle Shop Management API
+  description: API for managing vehicle shops, vehicles, customers and their sales.
+  version: 0.0.1
+  contact:
+    name: Rostyslav Zadyraichuk
+    email: rostykzadyraichuk010@gmail.com
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+  - url: https://api.carshop.com.ua
+    description: Main production server
+
+tags:
+  - name: "Vehicle Info"
+    description: "Everything about vehicle info"
+  - name: "Vehicle"
+    description: "Everything about vehicle"
+  - name: "Shop"
+    description: "Everything about vehicle shop"
+  - name: "Customer"
+    description: "Everything about customer"
+  - name: "Sale"
+    description: "Everything about sale"
+
+paths:
+  /info:
+    post:
+      tags:
+        - "Vehicle Info"
+      summary: "Save new vehicle info"
+      requestBody:
+        description: "Vehicle's info object"
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/CarInfo'
+                - $ref: '#/components/schemas/TruckInfo'
+                - $ref: '#/components/schemas/MotorcycleInfo'
+              discriminator:
+                propertyName: vehicleType
+                mapping:
+                  CAR: '#/components/schemas/CarInfo'
+                  TRUCK: '#/components/schemas/TruckInfo'
+                  MOTORCYCLE: '#/components/schemas/MotorcycleInfo'
+            examples:
+              CarInfo:
+                $ref: '#/components/examples/CarInfo'
+              TruckInfo:
+                $ref: '#/components/examples/TruckInfo'
+              MotorcycleInfo:
+                $ref: '#/components/examples/MotorcycleInfo'
+          application/xml:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/CarInfo'
+                - $ref: '#/components/schemas/TruckInfo'
+                - $ref: '#/components/schemas/MotorcycleInfo'
+              discriminator:
+                propertyName: vehicleType
+                mapping:
+                  CAR: '#/components/schemas/CarInfo'
+                  TRUCK: '#/components/schemas/TruckInfo'
+                  MOTORCYCLE: '#/components/schemas/MotorcycleInfo'
+            examples:
+              CarInfo:
+                $ref: '#/components/examples/CarInfoXml'
+              TruckInfo:
+                $ref: '#/components/examples/TruckInfoXml'
+              MotorcycleInfo:
+                $ref: '#/components/examples/MotorcycleInfoXml'
+      responses:
+        "201":
+          description: "Created"
+        "401":
+          description: "Unauthorized"
+        "422":
+          description: "Validation exception"
+      security:
+        - basic_auth: [ ]
+        - api_key: [ ]
+    put:
+      tags:
+        - "Vehicle Info"
+      summary: "Update vehicle info"
+      requestBody:
+        description: "Vehicle's info object"
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/CarInfo'
+                - $ref: '#/components/schemas/TruckInfo'
+                - $ref: '#/components/schemas/MotorcycleInfo'
+              discriminator:
+                propertyName: vehicleType
+                mapping:
+                  CAR: '#/components/schemas/CarInfo'
+                  TRUCK: '#/components/schemas/TruckInfo'
+                  MOTORCYCLE: '#/components/schemas/MotorcycleInfo'
+          application/xml:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/CarInfo'
+                - $ref: '#/components/schemas/TruckInfo'
+                - $ref: '#/components/schemas/MotorcycleInfo'
+              discriminator:
+                propertyName: vehicleType
+                mapping:
+                  CAR: '#/components/schemas/CarInfo'
+                  TRUCK: '#/components/schemas/TruckInfo'
+                  MOTORCYCLE: '#/components/schemas/MotorcycleInfo'
+            examples:
+              CarInfo:
+                $ref: '#/components/examples/CarInfoWithIdXml'
+              TruckInfo:
+                $ref: '#/components/examples/TruckInfoWithIdXml'
+              MotorcycleInfo:
+                $ref: '#/components/examples/MotorcycleInfoWithIdXml'
+      responses:
+        "204":
+          description: "Updated"
+        "401":
+          description: "Unauthorized"
+        "404":
+          description: "Vehicle info with such id and type not found"
+        "422":
+          description: "Validation exception"
+      security:
+        - basic_auth: [ ]
+        - api_key: [ ]
+  /info/{vehicleType}:
+    get:
+      tags:
+        - "Vehicle Info"
+      summary: "Obtain page of vehicle infos that accept criteria"
+      parameters:
+        - name: "vehicleType"
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [ "cars", "trucks", "motorcycles" ]
+            example: "cars"
+        - name: "carType"
+          in: query
+          required: false
+          description: "Applied only for cars. Multiple variants available"
+          style: form
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum: [ "SEDAN", "COUPLE", "JEEP", "TRUCK" ]
+            example: [ "SEDAN", "COUPLE" ]
+        - name: "truckType"
+          in: query
+          required: false
+          description: "Applied only for trucks. Multiple variants available"
+          style: form
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum: [ "AMERICAN", "EUROPEAN" ]
+            example: [ "AMERICAN", "EUROPEAN" ]
+        - name: "motorcycleType"
+          in: query
+          required: false
+          description: "Applied only for motorcycles. Multiple variants available"
+          style: form
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum: [ "SCOOTER", "SPORT", "CHOPPER" ]
+            example: [ "SCOOTER", "SPORT" ]
+        - name: "page"
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+            example: 1
+        - name: "itemsPerPage"
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            example: 15
+        - name: "make"
+          in: query
+          description: "Multiple variants available"
+          required: false
+          style: form
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+            example: [ "Mercedes", "BMW" ]
+        - name: "model"
+          in: query
+          description: "Multiple variants available"
+          required: false
+          style: form
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+            example: [ "S-Class", "GLC" ]
+        - name: "minYear"
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            example: 2010
+        - name: "maxYear"
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            example: 2020
+        - name: "minPrice"
+          in: query
+          required: false
+          schema:
+            type: number
+            format: double
+            example: 1000.00
+        - name: "maxPrice"
+          in: query
+          required: false
+          schema:
+            type: number
+            format: double
+            example: 10000.00
+        - name: "doorAmount"
+          in: query
+          required: false
+          description: "Applied only for cars. Multiple variants available"
+          style: form
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: integer
+              format: int32
+            example: [ 2, 3, 4 ]
+        - name: "isElectric"
+          in: query
+          required: false
+          description: "Applied only for cars. Multiple variants available"
+          style: form
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: boolean
+            example: [ true, false ]
+        - name: "ridingPosition"
+          in: query
+          required: false
+          description: "Applied only for motorcycles. Multiple variants available"
+          style: form
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum: [ "UPRIGHT", "FORWARD_LEANING", "SPORT" ]
+            example: [ "UPRIGHT", "SPORT" ]
+      responses:
+        "200":
+          description: "Ok"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                    - $ref: '#/components/schemas/CarInfo'
+                    - $ref: '#/components/schemas/TruckInfo'
+                    - $ref: '#/components/schemas/MotorcycleInfo'
+                  discriminator:
+                    propertyName: vehicleType
+                    mapping:
+                      CAR: '#/components/schemas/CarInfo'
+                      TRUCK: '#/components/schemas/TruckInfo'
+                      MOTORCYCLE: '#/components/schemas/MotorcycleInfo'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                    - $ref: '#/components/schemas/CarInfo'
+                    - $ref: '#/components/schemas/TruckInfo'
+                    - $ref: '#/components/schemas/MotorcycleInfo'
+                  discriminator:
+                    propertyName: vehicleType
+                    mapping:
+                      CAR: '#/components/schemas/CarInfo'
+                      TRUCK: '#/components/schemas/TruckInfo'
+                      MOTORCYCLE: '#/components/schemas/MotorcycleInfo'
+              examples:
+                example:
+                  $ref: '#/components/examples/CarInfoArrayWithIdXml'
+  /info/{vehicleType}/{id}:
+    get:
+      tags:
+        - "Vehicle Info"
+      summary: "Get vehicle info by type and id"
+      parameters:
+        - name: "vehicleType"
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: ["cars", "trucks", "motorcycles"]
+            example: "cars"
+        - name: "id"
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 123456
+      responses:
+        "200":
+          description: "Ok"
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/CarInfo'
+                  - $ref: '#/components/schemas/TruckInfo'
+                  - $ref: '#/components/schemas/MotorcycleInfo'
+                discriminator:
+                  propertyName: vehicleType
+                  mapping:
+                    cars: '#/components/schemas/CarInfo'
+                    trucks: '#/components/schemas/TruckInfo'
+                    motorcycles: '#/components/schemas/MotorcycleInfo'
+              examples:
+                CarInfo:
+                  $ref: '#/components/examples/CarInfoWithId'
+                TruckInfo:
+                  $ref: '#/components/examples/TruckInfoWithId'
+                MotorcycleInfo:
+                  $ref: '#/components/examples/MotorcycleInfoWithId'
+            application/xml:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/CarInfo'
+                  - $ref: '#/components/schemas/TruckInfo'
+                  - $ref: '#/components/schemas/MotorcycleInfo'
+                discriminator:
+                  propertyName: vehicleType
+                  mapping:
+                    cars: '#/components/schemas/CarInfo'
+                    trucks: '#/components/schemas/TruckInfo'
+                    motorcycles: '#/components/schemas/MotorcycleInfo'
+              examples:
+                CarInfo:
+                  $ref: '#/components/examples/CarInfoWithIdXml'
+                TruckInfo:
+                  $ref: '#/components/examples/TruckInfoWithIdXml'
+                MotorcycleInfo:
+                  $ref: '#/components/examples/MotorcycleInfoWithIdXml'
+        "404":
+          description: "Vehicle info by id and type not found"
+    delete:
+      tags:
+        - "Vehicle Info"
+      summary: "Delete vehicle info by type and id"
+      parameters:
+        - name: "vehicleType"
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: ["cars", "trucks", "motorcycles"]
+            example: "cars"
+        - name: "id"
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 123456
+      responses:
+        "204":
+          description: "Deleted"
+        "401":
+          description: "Unauthorized"
+        "404":
+          description: "Vehicle by id with selected type not found"
+      security:
+        - basic_auth: [ ]
+        - api_key: [ ]
+  /vehicle:
+    post:
+      tags:
+        - "Vehicle"
+      summary: "Save new vehicle"
+      requestBody:
+        description: "Vehicle object"
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/Car'
+                - $ref: '#/components/schemas/Truck'
+                - $ref: '#/components/schemas/Motorcycle'
+              discriminator:
+                propertyName: vehicleType
+                mapping:
+                  CAR: '#/components/schemas/Car'
+                  TRUCK: '#/components/schemas/Truck'
+                  MOTORCYCLE: '#/components/schemas/Motorcycle'
+            examples:
+              Car:
+                $ref: '#/components/examples/Car'
+              Truck:
+                $ref: '#/components/examples/Truck'
+              Motorcycle:
+                $ref: '#/components/examples/Motorcycle'
+          application/xml:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/Car'
+                - $ref: '#/components/schemas/Truck'
+                - $ref: '#/components/schemas/Motorcycle'
+              discriminator:
+                propertyName: vehicleType
+                mapping:
+                  CAR: '#/components/schemas/Car'
+                  TRUCK: '#/components/schemas/Truck'
+                  MOTORCYCLE: '#/components/schemas/Motorcycle'
+            examples:
+              Car:
+                $ref: '#/components/examples/CarXml'
+              Truck:
+                $ref: '#/components/examples/TruckXml'
+              Motorcycle:
+                $ref: '#/components/examples/MotorcycleXml'
+      responses:
+        "201":
+          description: "Created"
+        "401":
+          description: "Unauthorized"
+        "422":
+          description: "Validation exception"
+      security:
+        - basic_auth: [ ]
+        - api_key: [ ]
+    put:
+      tags:
+        - "Vehicle"
+      summary: "Update vehicle"
+      requestBody:
+        description: "Vehicle object"
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/Car'
+                - $ref: '#/components/schemas/Truck'
+                - $ref: '#/components/schemas/Motorcycle'
+              discriminator:
+                propertyName: vehicleType
+                mapping:
+                  CAR: '#/components/schemas/Car'
+                  TRUCK: '#/components/schemas/Truck'
+                  MOTORCYCLE: '#/components/schemas/Motorcycle'
+            examples:
+              Car:
+                $ref: '#/components/examples/Car'
+              Truck:
+                $ref: '#/components/examples/Truck'
+              Motorcycle:
+                $ref: '#/components/examples/Motorcycle'
+          application/xml:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/Car'
+                - $ref: '#/components/schemas/Truck'
+                - $ref: '#/components/schemas/Motorcycle'
+              discriminator:
+                propertyName: vehicleType
+                mapping:
+                  CAR: '#/components/schemas/Car'
+                  TRUCK: '#/components/schemas/Truck'
+                  MOTORCYCLE: '#/components/schemas/Motorcycle'
+            examples:
+              Car:
+                $ref: '#/components/examples/CarXml'
+              Truck:
+                $ref: '#/components/examples/TruckXml'
+              Motorcycle:
+                $ref: '#/components/examples/MotorcycleXml'
+      responses:
+        "204":
+          description: "Updated"
+        "401":
+          description: "Unauthorized"
+        "404":
+          description: "Vehicle with such id and type not found"
+        "422":
+          description: "Validation exception"
+      security:
+        - basic_auth: [ ]
+        - api_key: [ ]
+  /vehicle/{vin}:
+    get:
+      tags:
+        - "Vehicle"
+      summary: "Obtain vehicle by vin code"
+      parameters:
+        - name: "vin"
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "4Y1SL65848Z411439"
+      responses:
+        "200":
+          description: "Ok"
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Car'
+                  - $ref: '#/components/schemas/Truck'
+                  - $ref: '#/components/schemas/Motorcycle'
+                discriminator:
+                  propertyName: vehicleType
+                  mapping:
+                    CAR: '#/components/schemas/Car'
+                    TRUCK: '#/components/schemas/Truck'
+                    MOTORCYCLE: '#/components/schemas/Motorcycle'
+              examples:
+                Car:
+                  $ref: '#/components/examples/Car'
+                Truck:
+                  $ref: '#/components/examples/Truck'
+                Motorcycle:
+                  $ref: '#/components/examples/Motorcycle'
+        "404":
+          description: "Vehicle by vin code not found"
+    delete:
+      tags:
+        - "Vehicle"
+      summary: "Delete vehicle by vin code"
+      parameters:
+        - name: "vin"
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "4Y1SL65848Z411439"
+      responses:
+        "204":
+          description: "Deleted"
+        "401":
+          description: "Unauthorized"
+        "404":
+          description: "Vehicle by vin code not found"
+      security:
+        - basic_auth: [ ]
+        - api_key: [ ]
+#  /vehicles:
+#    get:
+#      tags:
+#        - "Vehicle"
+#      summary: "Obtain all vehicles that accept criteria"
+#      parameters:
+#
+#      responses:
+
+components:
+  securitySchemes:
+    basic_auth:
+      type: http
+      scheme: basic
+    api_key:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    # OAuth2:
+    #   type: oauth2
+    #   flows:
+    #     authorizationCode:
+    #       authorizationUrl: https://example.com/oauth/authorize
+    #       tokenUrl: https://example.com/oauth/token
+    #       scopes:
+    #         read: Grants read access
+    #         write: Grants write access
+
+  schemas:
+    VehicleInfo:
+      type: object
+      required: [make, model, manufactureYear, vehicleType]
+      properties:
+        id:
+          type: integer
+        make:
+          type: string
+        model:
+          type: string
+        vehicleType:
+          type: string
+          enum: ["CAR", "TRUCK", "MOTORCYCLE"]
+          description: "The type of the vehicle"
+        manufactureYear:
+          type: integer
+          format: int32
+        newVehiclePrice:
+          type: number
+          format: double
+    CarInfo:
+      allOf:
+        - $ref: '#/components/schemas/VehicleInfo'
+        - type: object
+          required: [carType]
+          properties:
+            carType:
+              type: string
+              enum: ["SEDAN", "COUPLE", "JEEP", "TRUCK"]
+              description: "The type of the car"
+            doorAmount:
+              type: integer
+              format: int32
+            isElectric:
+              type: boolean
+          example:
+            id: 123456
+            make: "Mercedes"
+            model: "S-Class"
+            manufactureYear: 2020
+            newVehiclePrice: 10000.00
+            vehicleType: "CAR"
+            carType: "SEDAN"
+            doorAmount: 4
+            isElectric: false
+    TruckInfo:
+      allOf:
+        - $ref: '#/components/schemas/VehicleInfo'
+        - type: object
+          required: [truckType]
+          properties:
+            truckType:
+              type: string
+              enum: ["AMERICAN", "EUROPEAN"]
+              description: "The type of the truck"
+            maxLoadCapacity:
+              type: number
+              format: double
+          example:
+            id: 123456
+            make: "Peterbilt"
+            model: "359"
+            manufactureYear: 2020
+            newVehiclePrice: 10000.00
+            vehicleType: "TRUCK"
+            truckType: "AMERICAN"
+            maxLoadCapacity: 10000.00
+    MotorcycleInfo:
+      allOf:
+        - $ref: '#/components/schemas/VehicleInfo'
+        - type: object
+          required: [motorcycleType]
+          properties:
+            motorcycleType:
+              type: string
+              enum: ["SCOOTER", "SPORT", "CHOPPER"]
+              description: "The type of the motorcycle"
+            ridingPosition:
+              type: string
+              enum: ["UPRIGHT", "FORWARD_LEANING", "SPORT"]
+            hasHelmetStorage:
+              type: boolean
+          example:
+            id: 123456
+            make: "BMW"
+            model: "R 1200 GS"
+            manufactureYear: 2020
+            newVehiclePrice: 10000.00
+            vehicleType: "MOTORCYCLE"
+            motorcycleType: "SPORT"
+            ridingPosition: "SPORT"
+            hasHelmetStorage: false
+    Vehicle:
+      type: object
+      required: [vin, status, color, info]
+      properties:
+        vin:
+          type: string
+          description: "Vehicle identification number"
+        status:
+          type: string
+          enum: ["NEW", "USED", "SOLD"]
+        color:
+          type: string
+          enum: ["WHITE", "BLACK", "GRAY", "GREEN", "RED"]
+        realPrice:
+          type: number
+          format: double
+        info:
+          $ref: '#/components/schemas/VehicleInfo'
+      example:
+        vin: "4Y1SL65848Z411439"
+        status: "NEW"
+        color: "WHITE"
+        realPrice: 10000.00
+    Car:
+      allOf:
+        - $ref: '#/components/schemas/Vehicle'
+        - type: object
+          properties:
+            info:
+              $ref: '#/components/schemas/CarInfo'
+    Truck:
+      allOf:
+        - $ref: '#/components/schemas/Vehicle'
+        - type: object
+          properties:
+            info:
+              $ref: '#/components/schemas/TruckInfo'
+    Motorcycle:
+      allOf:
+        - $ref: '#/components/schemas/Vehicle'
+        - type: object
+          properties:
+            info:
+              $ref: '#/components/schemas/MotorcycleInfo'
+    Customer:
+      type: object
+      required: [phone]
+      properties:
+        id:
+          type: integer
+        phone:
+          type: string
+        fullName:
+          type: string
+      example:
+        id: 123456
+        phone: "0505555555"
+        fullName: "First Last"
+    VehicleShop:
+      type: object
+      required: [address]
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+        address:
+          type: string
+      example:
+        id: 123456
+        email: "shop@gmail.com"
+        address: "City, Street, Number"
+    Sale:
+      type: object
+      required: [date, vehicle, shop, customer, totalPrice]
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+        vehicle:
+          oneOf:
+            - $ref: '#/components/schemas/Car'
+            - $ref: '#/components/schemas/Truck'
+            - $ref: '#/components/schemas/Motorcycle'
+          discriminator:
+            propertyName: vehicleType
+            mapping:
+              CAR: '#/components/schemas/Car'
+              TRUCK: '#/components/schemas/Truck'
+              MOTORCYCLE: '#/components/schemas/Motorcycle'
+        shop:
+          $ref: '#/components/schemas/VehicleShop'
+        customer:
+          $ref: '#/components/schemas/Customer'
+        discount:
+          type: number
+          format: double
+          description: "Percent of discount in format as number from 0 to 1"
+        totalPrice:
+          type: number
+          format: double
+      example:
+        id: 123456
+        date: "YYYY-MM-DD"
+        discount: 0.15
+        totalPrice: 10000.00
+
+  examples:
+    CarInfo:
+      value:
+        make: "Mercedes"
+        model: "S-Class"
+        manufactureYear: 2020
+        newVehiclePrice: 10000.00
+        vehicleType: "CAR"
+        carType: "SEDAN"
+        doorAmount: 4
+        isElectric: false
+    CarInfoXml:
+      value: |
+        <?xml version="1.0" encoding="UTF-8">
+          <carInfo>
+            <make>Mercedes</make>
+            <model>S-Class</model>
+            <manufactureYear>2020</manufactureYear>
+            <newVehiclePrice>10000.00</newVehiclePrice>
+            <vehicleType>CAR</vehicleType>
+            <carType>SEDAN</carType>
+            <doorAmount>4</doorAmount>
+            <isElectric>false</isElectric>
+          </carInfo>
+        </xml>
+    CarInfoWithId:
+      value:
+        id: 123456
+        make: "Mercedes"
+        model: "S-Class"
+        manufactureYear: 2020
+        newVehiclePrice: 10000.00
+        vehicleType: "CAR"
+        carType: "SEDAN"
+        doorAmount: 4
+        isElectric: false
+    CarInfoWithIdXml:
+      value: |
+        <?xml version="1.0" encoding="UTF-8">
+          <carInfo id=123456>
+            <make>Mercedes</make>
+            <model>S-Class</model>
+            <manufactureYear>2020</manufactureYear>
+            <newVehiclePrice>10000.00</newVehiclePrice>
+            <vehicleType>CAR</vehicleType>
+            <carType>SEDAN</carType>
+            <doorAmount>4</doorAmount>
+            <isElectric>false</isElectric>
+          </carInfo>
+        </xml>
+    CarInfoArrayWithIdXml:
+      value: |
+        <?xml version="1.0" encoding="UTF-8">
+          <infos>
+            <carInfo id=123456>
+              <make>Mercedes</make>
+              <model>S-Class</model>
+              <manufactureYear>2020</manufactureYear>
+              <newVehiclePrice>10000.00</newVehiclePrice>
+              <vehicleType>CAR</vehicleType>
+              <carType>SEDAN</carType>
+              <doorAmount>4</doorAmount>
+              <isElectric>false</isElectric>
+            </carInfo>
+          </infos>
+        </xml>
+    TruckInfo:
+      value:
+        make: "Peterbilt"
+        model: "359"
+        manufactureYear: 2020
+        newVehiclePrice: 10000.00
+        vehicleType: "TRUCK"
+        truckType: "AMERICAN"
+        maxLoadCapacity: 10000.00
+    TruckInfoXml:
+      value: |
+        <?xml version="1.0" encoding="UTF-8"?>
+          <truckInfo>
+            <make>Peterbilt</make>
+            <model>359</model>
+            <manufactureYear>2020</manufactureYear>
+            <newVehiclePrice>10000.00</newVehiclePrice>
+            <vehicleType>TRUCK</vehicleType>
+            <truckType>AMERICAN</truckType>
+            <maxLoadCapacity>10000.00</maxLoadCapacity>
+          </truckInfo>
+        </xml>
+    TruckInfoWithId:
+      value:
+        id: 123456
+        make: "Peterbilt"
+        model: "359"
+        manufactureYear: 2020
+        newVehiclePrice: 10000.00
+        vehicleType: "TRUCK"
+        truckType: "AMERICAN"
+        maxLoadCapacity: 10000.00
+    TruckInfoWithIdXml:
+      value: |
+        <?xml version="1.0" encoding="UTF-8"?>
+          <truckInfo id=123456>
+            <make>Peterbilt</make>
+            <model>359</model>
+            <manufactureYear>2020</manufactureYear>
+            <newVehiclePrice>10000.00</newVehiclePrice>
+            <vehicleType>TRUCK</vehicleType>
+            <truckType>AMERICAN</truckType>
+            <maxLoadCapacity>10000.00</maxLoadCapacity>
+          </truckInfo>
+        </xml>
+    MotorcycleInfo:
+      value:
+        make: "BMW"
+        model: "R 1200 GS"
+        manufactureYear: 2020
+        newVehiclePrice: 10000.00
+        vehicleType: "MOTORCYCLE"
+        motorcycleType: "SPORT"
+        ridingPosition: "SPORT"
+        hasHelmetStorage: false
+    MotorcycleInfoXml:
+      value: |
+        <?xml version="1.0" encoding="UTF-8"?>
+          <motorcycleInfo>
+            <make>BMW</make>
+            <model>R 1200 GS</model>
+            <manufactureYear>2020</manufactureYear>
+            <newVehiclePrice>10000.00</newVehiclePrice>
+            <vehicleType>MOTORCYCLE</vehicleType>
+            <motorcycleType>SPORT</motorcycleType>
+            <ridingPosition>SPORT</ridingPosition>
+            <hasHelmetStorage>false</hasHelmetStorage>
+          </motorcycleInfo>
+        </xml>
+    MotorcycleInfoWithId:
+      value:
+        id: 123456
+        make: "BMW"
+        model: "R 1200 GS"
+        manufactureYear: 2020
+        newVehiclePrice: 10000.00
+        vehicleType: "MOTORCYCLE"
+        motorcycleType: "SPORT"
+        ridingPosition: "SPORT"
+        hasHelmetStorage: false
+    MotorcycleInfoWithIdXml:
+      value: |
+        <?xml version="1.0" encoding="UTF-8"?>
+          <motorcycleInfo id=123456>
+            <make>BMW</make>
+            <model>R 1200 GS</model>
+            <manufactureYear>2020</manufactureYear>
+            <newVehiclePrice>10000.00</newVehiclePrice>
+            <vehicleType>MOTORCYCLE</vehicleType>
+            <motorcycleType>SPORT</motorcycleType>
+            <ridingPosition>SPORT</ridingPosition>
+            <hasHelmetStorage>false</hasHelmetStorage>
+          </motorcycleInfo>
+        </xml>
+    Car:
+      value:
+        vin: "4Y1SL65848Z411439"
+        status: "NEW"
+        color: "WHITE"
+        realPrice: 10000.00
+        info:
+          id: 123456
+          make: "Mercedes"
+          model: "S-Class"
+          manufactureYear: 2020
+          newVehiclePrice: 10000.00
+          vehicleType: "CAR"
+          carType: "SEDAN"
+          doorAmount: 4
+          isElectric: false
+    CarXml:
+      value: |
+        <?xml version="1.0" encoding="UTF-8"?>
+          <car>
+            <vin>4Y1SL65848Z411439</vin>
+            <status>NEW</status>
+            <color>WHITE</color>
+            <realPrice>10000.00</realPrice>
+            <info id=123456>
+              <make>Mercedes</make>
+              <model>S-Class</model>
+              <manufactureYear>2020</manufactureYear>
+              <newVehiclePrice>10000.00</newVehiclePrice>
+              <vehicleType>CAR</vehicleType>
+              <carType>SEDAN</carType>
+              <doorAmount>4</doorAmount>
+              <isElectric>false</isElectric>
+            </info>
+          </car>
+        </xml>
+    Truck:
+      value:
+        vin: "4Y1SL65848Z411439"
+        status: "NEW"
+        color: "WHITE"
+        realPrice: 10000.00
+        info:
+          id: 123456
+          make: "Peterbilt"
+          model: "359"
+          manufactureYear: 2020
+          newVehiclePrice: 10000.00
+          vehicleType: "TRUCK"
+          truckType: "AMERICAN"
+          maxLoadCapacity: 10000.00
+    TruckXml:
+      value: |
+        <?xml version="1.0" encoding="UTF-8"?>
+          <truck>
+            <vin>4Y1SL65848Z411439</vin>
+            <status>NEW</status>
+            <color>WHITE</color>
+            <realPrice>10000.00</realPrice>
+            <info id=123456>
+              <make>Peterbilt</make>
+              <model>359</model>
+              <manufactureYear>2020</manufactureYear>
+              <newVehiclePrice>10000.00</newVehiclePrice>
+              <vehicleType>TRUCK</vehicleType>
+              <truckType>AMERICAN</truckType>
+              <maxLoadCapacity>10000.00</maxLoadCapacity>
+            </info>
+          </truck>
+        </xml>
+    Motorcycle:
+      value:
+        vin: "4Y1SL65848Z411439"
+        status: "NEW"
+        color: "WHITE"
+        realPrice: 10000.00
+        info:
+          id: 123456
+          make: "BMW"
+          model: "R 1200 GS"
+          manufactureYear: 2020
+          newVehiclePrice: 10000.00
+          vehicleType: "MOTORCYCLE"
+          motorcycleType: "SPORT"
+          ridingPosition: "SPORT"
+          hasHelmetStorage: false
+    MotorcycleXml:
+      value: |
+        <?xml version="1.0" encoding="UTF-8"?>
+          <motorcycle>
+            <vin>4Y1SL65848Z411439</vin>
+            <status>NEW</status>
+            <color>WHITE</color>
+            <realPrice>10000.00</realPrice>
+            <info id=123456>
+              <make>BMW</make>
+              <model>R 1200 GS</model>
+              <manufactureYear>2020</manufactureYear>
+              <newVehiclePrice>10000.00</newVehiclePrice>
+              <vehicleType>MOTORCYCLE</vehicleType>
+              <motorcycleType>SPORT</motorcycleType>
+              <ridingPosition>SPORT</ridingPosition>
+              <hasHelmetStorage>false</hasHelmetStorage>
+            </info>
+          </motorcycle>
+        </xml>
+        
+        
+        #   Customer:
+          #     type: object
+          #     required: [phone]
+          #     properties:
+          #       id:
+          #         type: integer
+          #         example: 123456
+          #       phone:
+          #         type: string
+          #         example: "0505555555"
+          #       fullName:
+          #         type: string
+          #         example: "First Last"
+
+          #   VehicleShop:
+          #     type: object
+          #     required: [address]
+          #     properties:
+          #       id:
+          #         type: integer
+          #         example: 123456
+          #       email:
+          #         type: string
+          #         example: "shop@gmail.com"
+          #       address:
+          #         type: string
+          #         example: "City, Street, Number"
